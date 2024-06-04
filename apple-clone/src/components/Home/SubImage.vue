@@ -1,14 +1,14 @@
 <template lang="">
-  <div class="container" :style="[data.id !== 1 && { 'margin-top': '12px' }, { 'align-items': `flex-${data.position}` }]">
+  <div class="container" :style="[ { 'align-items': `flex-${data.position}` }]">
     <!-- {{data}} -->
     <div class="text-wrapper" >
       <h2 v-if="data.text.title !== undefined" :class="data.text.isBlack ? `font-black` : `font-white`">{{ data.text.title }}</h2>
-      <h2 v-else :style="h2Image"><span class="visually-hidden">2024년 Apple WWDC(세계개발자회의)</span></h2>
+      <h3 v-else :style="h2Image"><span class="visually-hidden">2024년 Apple WWDC(세계개발자회의)</span></h3>
       <!-- v-html을 이용해 \n -> <br>로 변경 -->
       <p v-html="contents" :class="data.text.isBlack ? `font-black` : `font-white`"></p>
       <p v-show="data.text.plusText !== undefined" class="plus-text">{{ data.text.plusText }}</p>
       <div class="button-wrapper">
-        <MainButton v-for="buttonItem in data.button" :text="buttonItem.text" :fillTrigger="buttonItem.fillTrigger" />
+        <MainButton v-for="buttonItem in data.button" :text="buttonItem.text" :fillTrigger="buttonItem.fillTrigger" :small="true" />
         <!-- <MainButton :text="`더 알아보기`" :fillTrigger="true" />
         <MainButton :text="`구입하기`" :fillTrigger="false" /> -->
       </div>
@@ -26,7 +26,7 @@ import MainButton from "../common/MainButton.vue";
 </script>
 <script>
 export default {
-  name: "MainImage",
+  name: "SubImage",
   props: ["data"],
   computed: {
     backgroundClass() {
@@ -35,15 +35,15 @@ export default {
       };
     },
     contents() {
-      return this.data.text.contents.replace("\n", "<br />");
+      return this.data.text.contents.replaceAll("\n", "<br />");
     },
     h2Image() {
       return {
         "background-image": `url(${this.data.text.titleImage})`,
         "background-position": "center",
-        "background-size": `228px 45px`,
+        "background-size": this.data.text.titleImageSize,
         "background-repeat": "no-repeat",
-        height: "45px",
+        height: this.data.text.titleImageSize.split(" ")[1],
         "margin-bottom" : "14px"
       };
     },
@@ -52,12 +52,13 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 100%;
+  width: 49%;
   height: 580px;
   position: relative;
   padding: 47px 0;
   display: flex;
   justify-content: center;
+  margin-top: 12px;
 }
 
 .text-wrapper {
@@ -66,17 +67,17 @@ export default {
   text-align: center;
 }
 .text-wrapper > h2 {
-  font-size: 56px;
+  font-size: 34px;
   margin: 0;
 }
 .text-wrapper > p {
-  font-size: 28px;
+  font-size: 18px;
   margin: 6px 0 0 0;
 }
 .text-wrapper .plus-text {
-  font-size: 18px;
+  font-size: 16px;
   color: #6c6c6c;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .button-wrapper {

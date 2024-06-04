@@ -1,5 +1,6 @@
 <template lang="">
-  <button :class="fillTrigger && `fill`">{{ text }}</button>
+  <!-- {{small}} -->
+  <button :class="fillTrigger && `fill`" :style="small && `padding: 8px 12px;`" >{{ text }}</button>
 </template>
 <script>
 export default {
@@ -10,6 +11,10 @@ export default {
       required: true,
     },
     fillTrigger:{
+      type: Boolean,
+      required: false
+    },
+    small:{
       type: Boolean,
       required: false
     }
